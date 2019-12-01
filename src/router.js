@@ -1,15 +1,73 @@
-import React, { Component } from 'react';
+import React from  'react';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 
-import { View, Text } from 'react-native';
+import { Platform, StatusBar } from "react-native";
 
-// import { Container } from './styles';
+import Splash from './Pages/Splash';
+import Login from './Pages/Login';
+import Workspace from './Pages/Workspace';
+import Forgot from './Pages/Forgot';
+import Account from './Pages/Account';
 
-export default class src extends Component {
-  render() {
-    return (
-        <View>
-            <Text>Emporio das Carnes</Text>
-        </View>
-    );
-  }
-}
+
+const MainNavigator = createStackNavigator({
+    Home: {
+        screen: Login,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    Forgot: {
+        screen: Forgot,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    Account: {
+        screen: Account,
+        navigationOptions: {
+            header: null,
+        }
+    }
+  });
+
+// const headerStyle = {
+//     marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+//   };
+
+// const SingIn = createStackNavigator({
+//     Login: {
+//         screen: Login,
+//         navigationOptions: {
+//             title: "Login",
+//             headerStyle
+//           }
+//     },
+//     Forgot: {
+//         screen: Forgot,
+//         navigationOptions: {
+//             title: "Forgot",
+//             headerStyle
+//           }
+//     },
+//     Account: {
+//         screen: Account,
+//         navigationOptions: {
+//             title: "Account",
+//             headerStyle
+//           }
+//     }
+// })
+
+const Routes = createAppContainer(
+    createSwitchNavigator(
+        {
+            Splash: { screen: Splash },
+            Login: { screen: MainNavigator },
+            Workspace: { screen: Workspace}
+        }
+    )
+);
+
+export default Routes;
