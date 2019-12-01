@@ -9,8 +9,9 @@ import {
     TextInput, 
     TouchableOpacity,
     Alert,
-    StatusBar,
+    ActivityIndicator,
     Keyboard,
+    StatusBar,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -27,6 +28,7 @@ export default function Login( { navigation } ) {
     // Definir o estado da aplicação
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     // -------------------------------------------------------------------
     // Funções
     // -------------------------------------------------------------------
@@ -38,31 +40,36 @@ export default function Login( { navigation } ) {
     },[])
 
     async function handleSubmit(){
-        try {
-            // Verificar se o usuário preencheu o email e a tecnologia
-            if(email === '' || password === '') {
-                Alert.alert('Erro ao efetuar Login!', 'Verificar campos obrigatórios');
-            }else{
+        if(!isLoading){
+            try {
+                // Verificar se o usuário preencheu o email e a tecnologia
+                if(email === '' || password === '') {
+                    Alert.alert('Falha no Login!', 'Verificar campos obrigatórios');
+                }else{
 
-                const response = await api.post('/auth/authenticate', {
-                    email,
-                    password
-                })
+                    setIsLoading(true);
 
-                const { user, token } = response.data;
+                    const response = await api.post('/auth/authenticate', {
+                        email,
+                        password
+                    })
+    
+                    const { user, token } = response.data;
+    
+                    await AsyncStorage.setItem('@user_id', user._id);
+                    await AsyncStorage.setItem('@token', token);
 
-                console.log(user._id);
-                console.log(token);
+                    setIsLoading(false);
 
-                await AsyncStorage.setItem('@user_id', user._id);
-                await AsyncStorage.setItem('@token', token);
-
-                navigation.navigate('Workspace');
-            }
-        } catch (error) {
-            Alert.alert('Falha na Autenticação','E-mail ou password inválido.')
-            console.log( error );
+                    navigation.navigate('Workspace');
+                }
+            } catch (error) {
+                Alert.alert('Falha na Autenticação','E-mail ou password inválido.')
+                setIsLoading(false);
+                console.log( error );
+            }        
         }
+
     }
     function handleForgot() {
         navigation.navigate('Forgot');
@@ -79,6 +86,7 @@ export default function Login( { navigation } ) {
                 behavior='padding'
                 style={styles.container}>
                 <View style={styles.form}>
+                <StatusBar translucent backgroundColor={colors.darker} />
                     <Image source={logo} style={styles.logo} />
 
                     <Text style={styles.label}>Seu E-mail *</Text>
@@ -93,14 +101,14 @@ export default function Login( { navigation } ) {
                             value={email}
                             onChangeText={setEmail}
                             returnKeyType='next'
-                            onSubmitEditing={()=> this.passwordInput.focus()}
+                            // onSubmitEditing={()=> this.passwordInput.focus()}
                         />
                     </View>
                     <Text style={styles.label}>Passowrd *</Text>
                     <View>
                         <Icon name='lock' size={24} style={styles.IconInput} />
                         <TextInput
-                            ref={input => this.passwordInput = input}
+                            // ref={input => this.passwordInput = input}
                             style={styles.input}
                             placeholder='password'
                             placeholderTextColor={colors.dark}
@@ -114,10 +122,14 @@ export default function Login( { navigation } ) {
                         />
                     </View>
 
-                    <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                        <Text style={styles.textButton}>Entrar</Text>
-                    </TouchableOpacity>
+                    {isLoading && <ActivityIndicator style={styles.isLoading} size='large' color={colors.primary} /> }
 
+                    {!isLoading && 
+                        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                            <Text style={styles.textButton}>Entrar</Text>
+                        </TouchableOpacity>
+                    }
+                    
                     <View style={styles.menu}>
                         <TouchableOpacity onPress={handleForgot}>
                             <Text style={styles.textButton}>Esqueci minha Senha</Text>
@@ -139,6 +151,8 @@ const styles = StyleSheet.create({
         backgroundColor: colors.darker,
     },
     logo: {
+        height: 150,
+        width: 220,
         alignSelf: 'center',
     },
     label: {
@@ -156,7 +170,7 @@ const styles = StyleSheet.create({
     input: {
         paddingHorizontal: 15,
         height: 40,
-        fontSize: fonts.regular,
+        fontSize: fonts.big,
         color: colors.light,
         borderBottomWidth: 1,
         borderColor: colors.light,
@@ -181,5 +195,8 @@ const styles = StyleSheet.create({
     menu: {
         marginTop: 10,
         padding: 10,
+    },
+    isLoading: {
+        marginTop: 10,
     },
 });

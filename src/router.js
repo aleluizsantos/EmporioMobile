@@ -32,34 +32,6 @@ const MainNavigator = createStackNavigator({
     }
   });
 
-// const headerStyle = {
-//     marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-//   };
-
-// const SingIn = createStackNavigator({
-//     Login: {
-//         screen: Login,
-//         navigationOptions: {
-//             title: "Login",
-//             headerStyle
-//           }
-//     },
-//     Forgot: {
-//         screen: Forgot,
-//         navigationOptions: {
-//             title: "Forgot",
-//             headerStyle
-//           }
-//     },
-//     Account: {
-//         screen: Account,
-//         navigationOptions: {
-//             title: "Account",
-//             headerStyle
-//           }
-//     }
-// })
-
 const Routes = createAppContainer(
     createSwitchNavigator(
         {
