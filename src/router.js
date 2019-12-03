@@ -12,7 +12,7 @@ import Account from './Pages/Account';
 
 
 const MainNavigator = createStackNavigator({
-    Home: {
+    Login: {
         screen: Login,
         navigationOptions: {
             header: null,
@@ -21,7 +21,7 @@ const MainNavigator = createStackNavigator({
     Forgot: {
         screen: Forgot,
         navigationOptions: {
-            header: null,
+            title: 'Recuperar senha',
         }
     },
     Account: {

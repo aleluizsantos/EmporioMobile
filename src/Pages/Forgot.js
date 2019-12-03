@@ -14,7 +14,7 @@ import {
     ActivityIndicator,
 } from 'react-native';
 
-import { colors, fonts } from '../styles';
+import { colors, fonts, metrics } from '../styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import logo from  '../assets/logo.png';
@@ -28,20 +28,20 @@ export default function Forgot( { navigation } ) {
     async function handleSubmit() {
         if(!isLoading){
             if(email === ''){
-                Alert.alert('Falha...', "O campo é obrigatório e deve ser preenchido com um email");
+                Alert.alert('Campo obrigatório', "Preencha com um email valido.");
             }else{
                 try {
                     setIsLoading(true);
-                    // Realizar a requisição via post 
-                    // const response = api.post('/auth/forgot-password', {
-                    //     email,
-                    // })
+                    //Realizar a requisição via post 
+                    const response = api.post('/auth/forgot-password', {
+                        email,
+                    })
 
                     Alert.alert('Recuperação Senha', 'E-mail enviado com sucesso, verifique sua caixa de mensagem.');
 
                     setIsLoading(false);
 
-                    this.props.navigation.goBack();
+                    navigation.navigate('Login');
 
                 } catch (error) {
                     Alert.alert('Falha no envio', 'Algo de errado aconteceu, tente novamente.')
@@ -54,9 +54,11 @@ export default function Forgot( { navigation } ) {
         <KeyboardAvoidingView 
             enabled={Platform.OS == 'ios'}
             behavior='padding'
-            style={styles.container}>
+            style={styles.container}> 
+
             <View style={styles.form}>
-            <StatusBar translucent backgroundColor={colors.darker} />
+                {/* <StatusBar translucent backgroundColor={colors.darker} /> */}
+                
                 <Image source={logo} style={styles.logo} />
 
                 <Text style={styles.label}>
@@ -74,7 +76,6 @@ export default function Forgot( { navigation } ) {
                         autoCapitalize='none'
                         value={email}
                         onChangeText={setEmail}
-                        
                     />
                 </View>
                                 
@@ -93,13 +94,13 @@ export default function Forgot( { navigation } ) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: colors.darker,
     },
     logo: {
-        marginTop: 80,
-        height: 150,
-        width: 220,
+        height: 90,
+        width: 120,
         alignSelf: 'center',
     },
     label: {
@@ -138,10 +139,6 @@ const styles = StyleSheet.create({
     },
     form: {
         width: '80%',
-    },
-    menu: {
-        marginTop: 10,
-        padding: 10,
     },
     isLoading: {
         marginTop: 10,

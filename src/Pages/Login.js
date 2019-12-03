@@ -12,6 +12,7 @@ import {
     ActivityIndicator,
     Keyboard,
     StatusBar,
+    Switch,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -28,11 +29,17 @@ export default function Login( { navigation } ) {
     // Definir o estado da aplicação
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [switchValue, setSwitchValue] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     // -------------------------------------------------------------------
     // Funções
     // -------------------------------------------------------------------
     useEffect(() => {
+        AsyncStorage.getItem('@userEmail').then(email => {
+            if(email)
+                setEmail(email);
+        })
+
         AsyncStorage.getItem('@user_id').then(user => {
             if(user)
                 navigation.navigate('Workspace');
@@ -48,16 +55,20 @@ export default function Login( { navigation } ) {
                 }else{
 
                     setIsLoading(true);
-
                     const response = await api.post('/auth/authenticate', {
                         email,
                         password
                     })
     
                     const { user, token } = response.data;
-    
-                    await AsyncStorage.setItem('@user_id', user._id);
-                    await AsyncStorage.setItem('@token', token);
+
+                    // Verificar se o usuário deseja armazenar o login
+                    if(switchValue){
+                        await AsyncStorage.setItem('@user_id', user._id);
+                        await AsyncStorage.setItem('@token', token);                        
+                    }
+                    
+                    await AsyncStorage.setItem('@userEmail', user.email);                            
 
                     setIsLoading(false);
 
@@ -78,6 +89,9 @@ export default function Login( { navigation } ) {
     function handleAccount() {
         navigation.navigate('Account');
     };
+    function handletoggleSwitch() {
+        setSwitchValue(!switchValue);
+    }
     // -------------------------------------------------------------------
 
     return (
@@ -86,7 +100,7 @@ export default function Login( { navigation } ) {
                 behavior='padding'
                 style={styles.container}>
                 <View style={styles.form}>
-                <StatusBar translucent backgroundColor={colors.darker} />
+                <StatusBar backgroundColor={colors.darker} />
                     <Image source={logo} style={styles.logo} />
 
                     <Text style={styles.label}>Seu E-mail *</Text>
@@ -122,6 +136,15 @@ export default function Login( { navigation } ) {
                         />
                     </View>
 
+                    <View style={styles.Forgot}>
+                        <Text style={styles.textButton}>Lembrar login? </Text>
+                        <View>
+                            <Switch
+                                onValueChange = {handletoggleSwitch}
+                                value = {switchValue}/>
+                        </View>
+                    </View>
+
                     {isLoading && <ActivityIndicator style={styles.isLoading} size='large' color={colors.primary} /> }
 
                     {!isLoading && 
@@ -150,9 +173,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: colors.darker,
     },
+    Forgot: {
+        marginTop: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
     logo: {
-        height: 150,
-        width: 220,
+        height: 100,
+        width: 145,
         alignSelf: 'center',
     },
     label: {
