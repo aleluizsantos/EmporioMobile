@@ -31,6 +31,7 @@ export default function Login( { navigation } ) {
     const [password, setPassword] = useState('');
     const [switchValue, setSwitchValue] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isSecureText, setIsSecureText] = useState(false);
     // -------------------------------------------------------------------
     // Funções
     // -------------------------------------------------------------------
@@ -45,6 +46,10 @@ export default function Login( { navigation } ) {
                 navigation.navigate('Workspace');
         })
     },[])
+
+    function handleEve() {
+        setIsSecureText(!isSecureText);
+    }
 
     async function handleSubmit(){
         if(!isLoading){
@@ -92,6 +97,8 @@ export default function Login( { navigation } ) {
     function handletoggleSwitch() {
         setSwitchValue(!switchValue);
     }
+
+    const styleIcon = isSecureText ? 'eye-slash' : 'eye';
     // -------------------------------------------------------------------
 
     return (
@@ -105,7 +112,10 @@ export default function Login( { navigation } ) {
 
                     <Text style={styles.label}>Seu E-mail *</Text>
                     <View>
-                        <Icon name='user-o' size={24} style={styles.IconInput} />
+                        <View style={styles.Touchable}>
+                            <Icon name='user-o' size={24} style={styles.IconInput} />       
+                        </View>
+                        
                         <TextInput
                             style={styles.input}
                             placeholder='seu e-mail'
@@ -120,7 +130,10 @@ export default function Login( { navigation } ) {
                     </View>
                     <Text style={styles.label}>Passowrd *</Text>
                     <View>
-                        <Icon name='lock' size={24} style={styles.IconInput} />
+                        <TouchableOpacity style={styles.Touchable} onPress={handleEve}>
+                            <Icon name={styleIcon} 
+                                    size={24} style={styles.IconInput} /> 
+                        </TouchableOpacity>
                         <TextInput
                             // ref={input => this.passwordInput = input}
                             style={styles.input}
@@ -128,7 +141,7 @@ export default function Login( { navigation } ) {
                             placeholderTextColor={colors.dark}
                             autoCorrect={false}
                             autoCapitalize='none'
-                            secureTextEntry={true}
+                            secureTextEntry={isSecureText}
                             value={password}
                             onChangeText={setPassword}
                             returnKeyType='go'
@@ -186,15 +199,11 @@ const styles = StyleSheet.create({
     },
     label: {
         color: colors.light,
-        fontSize: fonts.smaller,
+        fontSize: fonts.regular,
         paddingTop: 20,
     },
     IconInput: {
-        position: 'absolute',
-        right: 10,
-        top: 6,
         color: colors.light,
-        zIndex: 1,
     },
     input: {
         paddingHorizontal: 15,
@@ -228,4 +237,16 @@ const styles = StyleSheet.create({
     isLoading: {
         marginTop: 10,
     },
+    Touchable: {
+        position: 'absolute',
+        right: 10,
+        top: 6,
+        // backgroundColor: '#fff',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 25,
+        width: 30,
+        zIndex: 1,
+    },
+
 });

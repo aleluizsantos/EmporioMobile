@@ -27,25 +27,28 @@ export default function Forgot( { navigation } ) {
 
     async function handleSubmit() {
         if(!isLoading){
-            if(email === ''){
-                Alert.alert('Campo obrigatório', "Preencha com um email valido.");
-            }else{
-                try {
-                    setIsLoading(true);
-                    //Realizar a requisição via post 
-                    const response = api.post('/auth/forgot-password', {
-                        email,
-                    })
+            try {
+                if(email === ''){
+                    Alert.alert('Campo obrigatório', "Preencha com um email valido.");
+                }else{
+                        setIsLoading(true);
+                        //Realizar a requisição via post 
+                        const response = api.post('/auth/forgot-password', {
+                            email,
+                        });
+    
+                        const { error } = response.data;
 
-                    Alert.alert('Recuperação Senha', 'E-mail enviado com sucesso, verifique sua caixa de mensagem.');
-
-                    setIsLoading(false);
-
-                    navigation.navigate('Login');
-
-                } catch (error) {
-                    Alert.alert('Falha no envio', 'Algo de errado aconteceu, tente novamente.')
-                }
+                        console.log(error);
+    
+                        Alert.alert('Recuperação Senha', 'E-mail enviado com sucesso, verifique sua caixa de mensagem.');
+    
+                        setIsLoading(false);
+    
+                        navigation.navigate('Login');
+                }   
+            } catch (error) {
+                Alert.alert('Falha no envio', 'Algo de errado aconteceu, tente novamente.')
             }
         }
     }

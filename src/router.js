@@ -1,15 +1,12 @@
-import React from  'react';
+import React, { useState } from  'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-
-import { Platform, StatusBar } from "react-native";
 
 import Splash from './Pages/Splash';
 import Login from './Pages/Login';
 import Workspace from './Pages/Workspace';
 import Forgot from './Pages/Forgot';
 import Account from './Pages/Account';
-
 
 const MainNavigator = createStackNavigator({
     Login: {
