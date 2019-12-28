@@ -1,18 +1,14 @@
 import React from 'react';
-
-import {StyleSheet, View, ScrollView} from 'react-native';
+import {View, ScrollView, StyleSheet} from 'react-native';
 import {colors} from '../styles';
 
-import Header from '../Components/Header';
-import ListMenu from '../Components/ListMenu';
-// import ListProduct from '../Components/ListProduct';
+import ListProduct from '../Components/ListProduct';
 
-export default function Workspace({navigation}) {
+export default function Cardapio({navigation}) {
   return (
     <View style={styles.container}>
-      <Header />
       <ScrollView>
-        <ListMenu />
+        <ListProduct />
       </ScrollView>
     </View>
   );

@@ -4,10 +4,11 @@ import {metrics} from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
-    padding: metrics.padding,
+    flex: 1,
     flexDirection: 'row',
+    justifyContent: 'center',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    marginTop: metrics.padding,
   },
 });
 
