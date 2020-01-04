@@ -19,17 +19,9 @@ const styles = StyleSheet.create({
     // padding: metrics.padding,
   },
   infoContainer: {
-    borderTopWidth: 1,
-    borderColor: colors.lighter,
-    paddingBottom: metrics.padding,
-  },
-  checkIcon: {
-    position: 'absolute',
-    right: 10,
-    top: 10,
-    color: colors.primary,
-    fontSize: fonts.bigger,
-    zIndex: 1,
+    borderTopWidth: 2,
+    borderColor: colors.light,
+    padding: metrics.padding,
   },
   image: {
     width: '100%',
@@ -41,18 +33,8 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     fontWeight: 'bold',
-    color: colors.darker,
-  },
-  description: {
-    textAlign: 'center',
-    color: colors.dark,
-    fontSize: fonts.smaller,
-  },
-  price: {
-    textAlign: 'center',
+    fontSize: fonts.big,
     color: colors.primary,
-    fontSize: fonts.reular,
-    marginTop: 5,
   },
 });
 

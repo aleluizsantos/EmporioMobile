@@ -4,9 +4,9 @@
  */
 
 import React from 'react';
-import Routes from './src/router';
-import 'react-native-gesture-handler'
+import Routes from './router';
+import 'react-native-gesture-handler';
 
 export default function App() {
-  return <Routes />
+  return <Routes />;
 }

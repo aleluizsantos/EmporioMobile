@@ -57,7 +57,6 @@ export default function Login({navigation}) {
           Alert.alert('Falha no Login!', 'Verificar campos obrigatórios');
         } else {
           setIsLoading(true);
-
           Keyboard.dismiss();
 
           const response = await api.post('/auth/authenticate', {
@@ -70,10 +69,10 @@ export default function Login({navigation}) {
           // Verificar se o usuário deseja armazenar o login
           if (switchValue) {
             await AsyncStorage.setItem('@user_id', user._id);
-            await AsyncStorage.setItem('@token', token);
           }
 
           await AsyncStorage.setItem('@userEmail', user.email);
+          await AsyncStorage.setItem('@token', token);
 
           setIsLoading(false);
 

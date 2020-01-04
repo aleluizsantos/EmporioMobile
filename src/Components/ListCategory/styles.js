@@ -1,15 +1,13 @@
 import {StyleSheet} from 'react-native';
 
-import {metrics, colors} from '../../styles';
+import {metrics} from '../../styles';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    padding: metrics.padding,
     flexDirection: 'row',
-    justifyContent: 'center',
     flexWrap: 'wrap',
-    marginTop: metrics.padding,
+    justifyContent: 'space-between',
   },
 });
 

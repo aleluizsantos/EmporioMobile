@@ -2,13 +2,13 @@ import React from 'react';
 import {View, ScrollView, StyleSheet} from 'react-native';
 import {colors} from '../styles';
 
-import ListProduct from '../Components/ListProduct';
+import ListCategory from '../Components/ListCategory';
 
 export default function Cardapio({navigation}) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <ListProduct />
+        <ListCategory />
       </ScrollView>
     </View>
   );

@@ -1,6 +1,8 @@
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 
+import {colors} from './styles';
+
 import Splash from './Pages/Splash';
 import Login from './Pages/Login';
 import Workspace from './Pages/Workspace';
@@ -46,7 +48,14 @@ const NavWorkspace = createStackNavigator({
   MapaMesa: {
     screen: MapaMesa,
     navigationOptions: {
-      header: null,
+      title: 'Mapa de Mesa',
+      headerStyle: {
+        backgroundColor: colors.dark,
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
     },
   },
 });
